@@ -1,6 +1,6 @@
 'use client';
 
-import { use } from 'react';
+import { use, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
@@ -16,9 +16,12 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
+type TabType = 'overview' | 'workspace' | 'training' | 'earnings';
+
 export default function AvatarDetailPage({ params }: PageProps) {
   const router = useRouter();
   const { id } = use(params);
+  const [activeTab, setActiveTab] = useState<TabType>('overview');
 
   // Find avatar by id
   const avatar = mockAvatars.find(a => a.id === id);
@@ -225,6 +228,40 @@ export default function AvatarDetailPage({ params }: PageProps) {
           />
         </div>
 
+        {/* Tab Navigation */}
+        <div
+          className="flex items-center gap-1 p-1 mb-8 rounded-[16px]"
+          style={{
+            backgroundColor: 'var(--color-bg-elevated)',
+            border: '1px solid var(--color-border)',
+          }}
+        >
+          {[
+            { id: 'overview', label: '总览', icon: '📊' },
+            { id: 'workspace', label: '工作台', icon: '💼' },
+            { id: 'training', label: '训练', icon: '📚' },
+            { id: 'earnings', label: '收益', icon: '💰' },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as TabType)}
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-[12px] transition-all"
+              style={{
+                backgroundColor: activeTab === tab.id ? 'var(--color-brand-primary)' : 'transparent',
+                color: activeTab === tab.id ? '#FFFFFF' : 'var(--color-text-secondary)',
+                fontSize: 'var(--font-size-body)',
+                fontWeight: 'var(--font-weight-medium)',
+                minHeight: '44px',
+              }}
+            >
+              <span>{tab.icon}</span>
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === 'overview' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
@@ -580,6 +617,267 @@ export default function AvatarDetailPage({ params }: PageProps) {
             </Card>
           </div>
         </div>
+        )}
+
+        {/* Workspace Tab */}
+        {activeTab === 'workspace' && (
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>当前任务</CardTitle>
+                  <Button variant="secondary" size="sm">
+                    <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    分配新任务
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div
+                  className="text-center py-16"
+                  style={{
+                    color: 'var(--color-text-muted)',
+                    fontSize: 'var(--font-size-body)',
+                  }}
+                >
+                  <div className="text-6xl mb-4">💼</div>
+                  <p className="mb-2" style={{ fontWeight: 'var(--font-weight-medium)' }}>工作台功能开发中</p>
+                  <p style={{ fontSize: 'var(--font-size-caption)' }}>
+                    将包含：任务队列、执行日志、性能监控
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>任务队列</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-caption)' }}>
+                    待执行任务: 0
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>执行日志</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-caption)' }}>
+                    最近活动: 无
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>性能监控</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-caption)' }}>
+                    实时监控: 准备中
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )}
+
+        {/* Training Tab */}
+        {activeTab === 'training' && (
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>技能训练</CardTitle>
+                  <Button variant="secondary" size="sm">
+                    <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                    </svg>
+                    上传训练数据
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div
+                  className="text-center py-16"
+                  style={{
+                    color: 'var(--color-text-muted)',
+                    fontSize: 'var(--font-size-body)',
+                  }}
+                >
+                  <div className="text-6xl mb-4">📚</div>
+                  <p className="mb-2" style={{ fontWeight: 'var(--font-weight-medium)' }}>训练功能开发中</p>
+                  <p style={{ fontSize: 'var(--font-size-caption)' }}>
+                    将包含：数据上传、技能进阶、学习曲线
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>技能进度</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {Object.entries(avatar.abilities).map(([ability, score]) => {
+                      const abilityNames: Record<string, string> = {
+                        coding: '编程能力',
+                        design: '设计能力',
+                        writing: '写作能力',
+                        analysis: '分析能力',
+                        communication: '沟通能力',
+                      };
+                      return (
+                        <div key={ability}>
+                          <div className="flex items-center justify-between mb-2">
+                            <span style={{ fontSize: 'var(--font-size-caption)', color: 'var(--color-text-secondary)' }}>
+                              {abilityNames[ability]}
+                            </span>
+                            <span style={{ fontSize: 'var(--font-size-caption)', fontWeight: 'var(--font-weight-bold)' }}>
+                              Level {Math.floor(score / 20)}
+                            </span>
+                          </div>
+                          <Progress value={score} />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>训练记录</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-caption)' }}>
+                    暂无训练记录
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )}
+
+        {/* Earnings Tab */}
+        {activeTab === 'earnings' && (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <DataTile
+                label="今日收益"
+                value={`$${avatar.earnings.today}`}
+                trend={avatar.earnings.today > 0 ? 'up' : 'neutral'}
+                status="success"
+              />
+              <DataTile
+                label="本周收益"
+                value={`$${avatar.earnings.thisWeek}`}
+                trend="up"
+                trendValue="+15%"
+                status="success"
+              />
+              <DataTile
+                label="本月收益"
+                value={`$${avatar.earnings.thisMonth}`}
+                trend="up"
+                trendValue="+22%"
+                status="success"
+              />
+              <DataTile
+                label="累计收益"
+                value={`$${avatar.earnings.total.toLocaleString()}`}
+                status="neutral"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>收益趋势</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-end justify-between h-48 gap-3">
+                      {avatar.earnings.trend.map((value, index) => {
+                        const maxValue = Math.max(...avatar.earnings.trend);
+                        const height = (value / maxValue) * 100;
+                        return (
+                          <div key={index} className="flex-1 flex flex-col items-center gap-2">
+                            <div
+                              className="w-full rounded-t-[8px] transition-all cursor-pointer"
+                              style={{
+                                height: `${height}%`,
+                                backgroundColor: index === avatar.earnings.trend.length - 1
+                                  ? 'var(--color-brand-primary)'
+                                  : 'var(--color-bg-elevated)',
+                              }}
+                              title={`$${value}`}
+                            />
+                            <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>
+                              {['周一', '周二', '周三', '周四', '周五', '周六', '周日'][index]}
+                            </span>
+                            <span style={{ fontSize: '10px', color: 'var(--color-text-secondary)', fontWeight: 'var(--font-weight-medium)' }}>
+                              ${value}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle>提现管理</CardTitle>
+                    <Button variant="secondary" size="sm">申请提现</Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div
+                    className="text-center py-8"
+                    style={{
+                      color: 'var(--color-text-muted)',
+                      fontSize: 'var(--font-size-body)',
+                    }}
+                  >
+                    <div className="text-5xl mb-4">💰</div>
+                    <p className="mb-2" style={{ fontWeight: 'var(--font-weight-medium)' }}>提现功能开发中</p>
+                    <p style={{ fontSize: 'var(--font-size-caption)' }}>
+                      可提现余额: ${avatar.earnings.total.toLocaleString()}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>收益明细</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div
+                  className="text-center py-8"
+                  style={{
+                    color: 'var(--color-text-muted)',
+                    fontSize: 'var(--font-size-caption)',
+                  }}
+                >
+                  暂无收益明细记录
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </MainLayout>
   );
