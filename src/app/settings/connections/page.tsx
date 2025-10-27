@@ -196,7 +196,6 @@ export default function ConnectionsSettingsPage() {
                           </h3>
                           <Badge
                             variant={conn.status === 'connected' ? 'success' : 'outline'}
-                            size="sm"
                           >
                             {conn.status === 'connected' ? '已连接' : '未连接'}
                           </Badge>

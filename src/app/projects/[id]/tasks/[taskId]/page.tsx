@@ -13,6 +13,22 @@ import { chatService } from '@/lib/services/chatService';
 import { HapticFeedback } from '@/lib/utils/haptics';
 import { showToast } from '@/components/ui/Toast';
 
+// Helper function to map mock status to Avatar component status
+const mapStatusToAvatarStatus = (status: string | undefined): 'online' | 'busy' | 'offline' | 'thinking' | undefined => {
+  if (!status) return undefined;
+
+  const statusMap: Record<string, 'online' | 'busy' | 'offline' | 'thinking'> = {
+    'online': 'online',
+    'idle': 'online',
+    'working': 'busy',
+    'busy': 'busy',
+    'offline': 'offline',
+    'thinking': 'thinking',
+  };
+
+  return statusMap[status] || undefined;
+};
+
 export default function TaskSessionPage() {
   const params = useParams();
   const router = useRouter();
@@ -125,7 +141,7 @@ export default function TaskSessionPage() {
               <Badge variant={
                 task.status === 'completed' ? 'success' :
                 task.status === 'in_progress' ? 'warning' :
-                task.status === 'review' ? 'info' : 'secondary'
+                task.status === 'review' ? 'default' : 'secondary'
               }>
                 {task.status === 'completed' ? '已完成' :
                  task.status === 'in_progress' ? '进行中' :
@@ -145,7 +161,7 @@ export default function TaskSessionPage() {
             <div>
               <span className="text-sm text-neutral-500">分配给</span>
               <div className="mt-2 flex items-center space-x-2">
-                <Avatar src={task.assignee.avatar} size="sm" status={task.assignee.status} />
+                <Avatar src={task.assignee.avatar} size="sm" status={mapStatusToAvatarStatus(task.assignee.status)} />
                 <span className="text-sm font-medium text-neutral-900">{task.assignee.name}</span>
               </div>
             </div>

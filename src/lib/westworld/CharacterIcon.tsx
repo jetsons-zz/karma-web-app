@@ -194,7 +194,7 @@ export function CharacterIcon({
 
             {/* 坚毅的眉毛 */}
             <line x1="24" y1="30" x2="28" y2="31" stroke="#8B4513" strokeWidth="2" strokeLinecap="round" />
-            <line x1="36" y1="31" x2="40" y1="30" stroke="#8B4513" strokeWidth="2" strokeLinecap="round" />
+            <line x1="36" y1="31" x2="40" y2="30" stroke="#8B4513" strokeWidth="2" strokeLinecap="round" />
 
             {/* 眼睛 */}
             <circle cx="26" cy="33" r="2" fill="#4169E1" />

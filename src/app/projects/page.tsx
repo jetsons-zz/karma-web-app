@@ -22,7 +22,7 @@ export default function ProjectsPage() {
   const activeProjects = mockProjects.filter(p => p.status === 'active').length;
   const totalProjects = mockProjects.length;
   const avgProgress = Math.round(mockProjects.reduce((sum, p) => sum + p.progress, 0) / totalProjects);
-  const totalMembers = new Set(mockProjects.flatMap(p => p.members.map(m => m.id))).size;
+  const totalMembers = new Set(mockProjects.flatMap(p => p.members.map(m => m.userId))).size;
 
   return (
     <MainLayout>

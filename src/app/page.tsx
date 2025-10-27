@@ -264,7 +264,7 @@ export default function Home() {
                           <span
                             className="w-2 h-2 rounded-full"
                             style={{
-                              backgroundColor: impactColors[suggestion.impact],
+                              backgroundColor: impactColors[suggestion.impact as keyof typeof impactColors],
                             }}
                           />
                         </div>

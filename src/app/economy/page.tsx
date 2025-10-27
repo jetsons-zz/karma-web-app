@@ -7,27 +7,48 @@ import { DataTile } from '@/components/ui/DataTile';
 import { Toggle } from '@/components/ui/Toggle';
 import { Avatar } from '@/components/ui/Avatar';
 
+interface BaseTransaction {
+  id: string;
+  date: string;
+  description: string;
+  amount: number;
+  balance: number;
+  category: string;
+}
+
+interface ConsumerTransaction extends BaseTransaction {}
+
+interface ProducerTransaction extends BaseTransaction {
+  avatar: string;
+}
+
+type Transaction = ConsumerTransaction | ProducerTransaction;
+
+function isProducerTransaction(transaction: Transaction): transaction is ProducerTransaction {
+  return 'avatar' in transaction;
+}
+
 export default function EconomyPage() {
   const [viewMode, setViewMode] = useState<'consumer' | 'producer'>('consumer');
 
   // Mock data for dual-ledger system
-  const consumerLedger = [
-    { id: '1', date: '2025-10-24', description: '订阅 Avatar - Forge', amount: -29, balance: 971, category: '订阅' },
-    { id: '2', date: '2025-10-23', description: '月度充值', amount: 500, balance: 1000, category: '充值' },
-    { id: '3', date: '2025-10-22', description: '任务消耗 - 项目 Alpha', amount: -45, balance: 500, category: '消耗' },
-    { id: '4', date: '2025-10-21', description: '订阅 Avatar - Vision', amount: -39, balance: 545, category: '订阅' },
-    { id: '5', date: '2025-10-20', description: '任务消耗 - 数据分析', amount: -18, balance: 584, category: '消耗' },
+  const consumerLedger: ConsumerTransaction[] = [
+    { id: '1', date: '2025-10-24', description: 'Avatar subscription - Forge', amount: -29, balance: 971, category: 'Subscription' },
+    { id: '2', date: '2025-10-23', description: 'Monthly top-up', amount: 500, balance: 1000, category: 'Top-up' },
+    { id: '3', date: '2025-10-22', description: 'Task consumption - Project Alpha', amount: -45, balance: 500, category: 'Usage' },
+    { id: '4', date: '2025-10-21', description: 'Avatar subscription - Vision', amount: -39, balance: 545, category: 'Subscription' },
+    { id: '5', date: '2025-10-20', description: 'Task consumption - Data analysis', amount: -18, balance: 584, category: 'Usage' },
   ];
 
-  const producerLedger = [
-    { id: '1', date: '2025-10-24', description: 'Forge 完成任务', amount: 85, balance: 2456, category: '收益', avatar: 'Forge' },
-    { id: '2', date: '2025-10-24', description: 'Vision 完成设计', amount: 120, balance: 2371, category: '收益', avatar: 'Vision' },
-    { id: '3', date: '2025-10-23', description: 'Scout 市场调研', amount: 65, balance: 2251, category: '收益', avatar: 'Scout' },
-    { id: '4', date: '2025-10-23', description: 'Capital 投资回报', amount: 200, balance: 2186, category: '收益', avatar: 'Capital' },
-    { id: '5', date: '2025-10-22', description: 'Flow 流程优化', amount: 55, balance: 1986, category: '收益', avatar: 'Flow' },
+  const producerLedger: ProducerTransaction[] = [
+    { id: '1', date: '2025-10-24', description: 'Forge completed task', amount: 85, balance: 2456, category: 'Earnings', avatar: 'Forge' },
+    { id: '2', date: '2025-10-24', description: 'Vision completed design', amount: 120, balance: 2371, category: 'Earnings', avatar: 'Vision' },
+    { id: '3', date: '2025-10-23', description: 'Scout market research', amount: 65, balance: 2251, category: 'Earnings', avatar: 'Scout' },
+    { id: '4', date: '2025-10-23', description: 'Capital investment return', amount: 200, balance: 2186, category: 'Earnings', avatar: 'Capital' },
+    { id: '5', date: '2025-10-22', description: 'Flow process optimization', amount: 55, balance: 1986, category: 'Earnings', avatar: 'Flow' },
   ];
 
-  const ledger = viewMode === 'consumer' ? consumerLedger : producerLedger;
+  const ledger: Transaction[] = viewMode === 'consumer' ? consumerLedger : producerLedger;
 
   return (
     <MainLayout>
@@ -155,11 +176,10 @@ export default function EconomyPage() {
                         }}
                       >
                         <div className="flex items-center gap-3 flex-1">
-                          {viewMode === 'producer' && transaction.avatar && (
+                          {viewMode === 'producer' && isProducerTransaction(transaction) && (
                             <Avatar
                               name={transaction.avatar}
                               size="sm"
-                              role={transaction.avatar as any}
                             />
                           )}
                           <div className="flex-1">

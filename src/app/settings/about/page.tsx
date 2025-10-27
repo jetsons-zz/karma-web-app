@@ -134,7 +134,7 @@ export default function AboutSettingsPage() {
                       >
                         {item.label}
                       </span>
-                      {item.link ? (
+                      {'link' in item ? (
                         <button
                           onClick={() => console.log(`Navigate to ${item.link}`)}
                           className="transition-colors"

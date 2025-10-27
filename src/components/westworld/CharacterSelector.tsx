@@ -161,10 +161,9 @@ export function CharacterSelector({
                   : 'bg-neutral-50 hover:bg-white'
               )}
               style={{
-                ringColor:
-                  selectedCharacter === character.id
-                    ? character.visual.primaryColor
-                    : 'transparent',
+                ...(selectedCharacter === character.id && {
+                  '--tw-ring-color': character.visual.primaryColor,
+                } as React.CSSProperties),
               }}
             >
               <Avatar
@@ -235,10 +234,9 @@ export function CompactCharacterSelector({
               : 'bg-neutral-50 hover:bg-white'
           )}
           style={{
-            ringColor:
-              selectedCharacter === character.id
-                ? character.visual.primaryColor
-                : 'transparent',
+            ...(selectedCharacter === character.id && {
+              '--tw-ring-color': character.visual.primaryColor,
+            } as React.CSSProperties),
           }}
         >
           <Avatar

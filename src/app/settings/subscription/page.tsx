@@ -385,7 +385,7 @@ export default function SubscriptionSettingsPage() {
                           {bill.invoice}
                         </div>
                       </div>
-                      <Badge variant="success" size="sm">
+                      <Badge variant="success">
                         {bill.status === 'paid' ? '已支付' : '待支付'}
                       </Badge>
                     </div>

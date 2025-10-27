@@ -176,7 +176,7 @@ export default function TaskSessionPage() {
                   <Badge variant="outline">
                     {mockTask.project.name}
                   </Badge>
-                  <Badge variant="neutral">
+                  <Badge variant="secondary">
                     {mockTask.branch}
                   </Badge>
                   <span

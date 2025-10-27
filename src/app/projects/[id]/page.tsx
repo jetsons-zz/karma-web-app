@@ -12,6 +12,22 @@ import { mockProjects, mockTasks, mockAvatars } from '@/lib/mock/data';
 import { formatDate, cn } from '@/lib/utils';
 import type { Task } from '@/types';
 
+// Helper function to map mock status to Avatar component status
+const mapStatusToAvatarStatus = (status: string | undefined): 'online' | 'busy' | 'offline' | 'thinking' | undefined => {
+  if (!status) return undefined;
+
+  const statusMap: Record<string, 'online' | 'busy' | 'offline' | 'thinking'> = {
+    'online': 'online',
+    'idle': 'online',
+    'working': 'busy',
+    'busy': 'busy',
+    'offline': 'offline',
+    'thinking': 'thinking',
+  };
+
+  return statusMap[status] || undefined;
+};
+
 export default function ProjectDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -52,7 +68,7 @@ export default function ProjectDetailPage() {
         <div className="flex items-center justify-between">
           {task.assignee && (
             <div className="flex items-center space-x-2">
-              <Avatar src={task.assignee.avatar} size="xs" status={task.assignee.status} />
+              <Avatar src={task.assignee.avatar} size="xs" status={mapStatusToAvatarStatus(task.assignee.status)} />
               <span className="text-xs text-neutral-600">{task.assignee.name}</span>
             </div>
           )}
@@ -105,7 +121,7 @@ export default function ProjectDetailPage() {
         <div className="space-y-3">
           {mockAvatars.filter(a => a.status === 'working').map((avatar) => (
             <div key={avatar.id} className="flex items-center space-x-3">
-              <Avatar src={avatar.avatar} size="sm" status={avatar.status} />
+              <Avatar src={avatar.avatar} size="sm" status={mapStatusToAvatarStatus(avatar.status)} />
               <div className="flex-1">
                 <div className="text-sm font-medium text-neutral-900">{avatar.name}</div>
                 <div className="text-xs text-neutral-500">处理 {avatar.performance.totalTasks - avatar.performance.completedTasks} 个任务</div>

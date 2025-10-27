@@ -22,7 +22,9 @@ class ToastManager {
 
   subscribe(listener: (toasts: Toast[]) => void) {
     this.listeners.add(listener);
-    return () => this.listeners.delete(listener);
+    return () => {
+      this.listeners.delete(listener);
+    };
   }
 
   private notify() {

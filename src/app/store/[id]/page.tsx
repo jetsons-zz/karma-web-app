@@ -99,7 +99,7 @@ export default function StoreDetailPage({ params }: PageProps) {
             {/* Header */}
             <div>
               <div className="flex items-start gap-6 mb-6">
-                <Avatar src={avatar.avatar} name={avatar.name} size="xxl" showRole />
+                <Avatar src={avatar.avatar} name={avatar.name} size="xl" showRole />
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <h1

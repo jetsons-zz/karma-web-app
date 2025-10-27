@@ -342,7 +342,7 @@ export function MessageBubble({
           <div className="mt-2">
             <Badge
               variant={
-                metadata.action === 'review_required' ? 'warning' : 'info'
+                metadata.action === 'review_required' ? 'warning' : 'default'
               }
             >
               {metadata.action === 'review_required' && '需要审核'}
