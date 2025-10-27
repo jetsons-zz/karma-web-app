@@ -9,6 +9,7 @@ const buttonVariants = cva(
       variant: {
         primary: 'shadow-sm',
         secondary: 'border-2',
+        outline: 'border-2',
         ghost: '',
         danger: 'shadow-sm',
       },
@@ -45,6 +46,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         backgroundColor: 'transparent',
         borderColor: 'var(--color-border)',
         color: 'var(--color-text-primary)',
+      },
+      outline: {
+        backgroundColor: 'transparent',
+        borderColor: 'var(--color-brand-primary)',
+        color: 'var(--color-brand-primary)',
       },
       ghost: {
         backgroundColor: 'transparent',

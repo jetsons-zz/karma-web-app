@@ -148,11 +148,8 @@ export default function AvatarsPage() {
                 <div className="flex items-start gap-4">
                   <Avatar
                     src={avatar.avatar}
-                    name={avatar.name}
                     size="lg"
                     status={avatar.status === 'working' ? 'busy' : avatar.status === 'idle' ? 'online' : 'offline'}
-                    role={avatar.role as any}
-                    showRole
                   />
                   <div className="flex-1">
                     <CardTitle>{avatar.name}</CardTitle>
