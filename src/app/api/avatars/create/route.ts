@@ -57,7 +57,9 @@ export async function POST(req: NextRequest) {
       earnings: {
         total: 0,
         today: 0,
+        thisWeek: 0,
         thisMonth: 0,
+        trend: [],
       },
     });
 

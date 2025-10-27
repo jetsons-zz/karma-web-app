@@ -9,7 +9,8 @@ import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
 import { DataTile } from '@/components/ui/DataTile';
 import { Progress } from '@/components/ui/Progress';
-import { getAllAvatars, type Avatar as AvatarType } from '@/lib/mock/avatarStore';
+import { getAllAvatars } from '@/lib/mock/avatarStore';
+import type { Avatar as AvatarType } from '@/types';
 
 export default function AvatarsPage() {
   const router = useRouter();

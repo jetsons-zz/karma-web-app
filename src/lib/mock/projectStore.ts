@@ -4,32 +4,7 @@
  */
 
 import { mockProjects } from './data';
-
-export interface Project {
-  id: string;
-  name: string;
-  description: string;
-  status: 'planning' | 'in-progress' | 'review' | 'completed' | 'on-hold';
-  progress: number;
-  priority: 'low' | 'medium' | 'high' | 'urgent';
-  dueDate: string;
-  team: string[];
-  tasks: {
-    total: number;
-    completed: number;
-    inProgress: number;
-  };
-  budget?: {
-    total: number;
-    used: number;
-  };
-  tags?: string[];
-  createdAt: string;
-  updatedAt: string;
-  template?: string;
-  autoMode?: boolean;
-  isPrivate?: boolean;
-}
+import type { Project } from '@/types';
 
 const STORAGE_KEY = 'karma_projects';
 

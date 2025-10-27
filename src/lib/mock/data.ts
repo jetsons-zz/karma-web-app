@@ -24,6 +24,7 @@ export const mockAvatars: Avatar[] = [
   {
     id: 'avatar-1',
     name: 'FORGE #1',
+    role: '全栈开发专家',
     description: '全栈开发专家，擅长React、Node.js和数据库设计',
     avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=forge1',
     skills: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'AWS'],
@@ -53,10 +54,12 @@ export const mockAvatars: Avatar[] = [
     rating: 4.8,
     reviewCount: 24,
     createdAt: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
   },
   {
     id: 'avatar-2',
     name: 'FORGE #2',
+    role: '后端架构师',
     description: '后端架构师，专注于高性能系统设计',
     avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=forge2',
     skills: ['Go', 'Kubernetes', 'Redis', 'MongoDB', 'gRPC'],
@@ -86,10 +89,12 @@ export const mockAvatars: Avatar[] = [
     rating: 4.9,
     reviewCount: 18,
     createdAt: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
   },
   {
     id: 'avatar-3',
     name: 'VISION',
+    role: 'UI/UX设计师',
     description: 'UI/UX设计师，精通Figma和前端实现',
     avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=vision',
     skills: ['Figma', 'CSS', 'Animation', 'Design System', 'Tailwind'],
@@ -120,6 +125,7 @@ export const mockAvatars: Avatar[] = [
     reviewCount: 32,
     price: 49,
     createdAt: new Date(Date.now() - 40 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
   },
 ];
 
@@ -389,6 +395,7 @@ export const mockStoreAvatars: StoreAvatar[] = [
   {
     id: 'store-avatar-1',
     name: '代码审查专家',
+    role: '代码审查专家',
     description: '专业的代码审查分身，帮助提升代码质量',
     avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=reviewer',
     skills: ['Code Review', 'Best Practices', 'Security', 'Performance'],
@@ -423,10 +430,12 @@ export const mockStoreAvatars: StoreAvatar[] = [
     downloads: 1247,
     samples: [],
     createdAt: new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
   },
   {
     id: 'store-avatar-2',
     name: '全栈工程师',
+    role: '全栈工程师',
     description: '精通前后端开发的全能型分身',
     avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=fullstack',
     skills: ['React', 'Node.js', 'PostgreSQL', 'AWS', 'Docker'],
@@ -461,6 +470,7 @@ export const mockStoreAvatars: StoreAvatar[] = [
     downloads: 856,
     samples: [],
     createdAt: new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
   },
 ];
 

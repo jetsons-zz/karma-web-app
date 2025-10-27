@@ -4,41 +4,7 @@
  */
 
 import { mockAvatars } from './data';
-
-export interface Avatar {
-  id: string;
-  name: string;
-  role: string;
-  status: 'idle' | 'working' | 'offline';
-  avatar: string;
-  description: string;
-  skills: string[];
-  abilities?: {
-    coding?: number;
-    design?: number;
-    writing?: number;
-    analysis?: number;
-    communication?: number;
-    leadership?: number;
-  };
-  budget?: number;
-  isPublic?: boolean;
-  rating: number;
-  reviewCount: number;
-  performance: {
-    totalTasks: number;
-    completedTasks: number;
-    successRate: number;
-    averageTime: number;
-  };
-  earnings: {
-    total: number;
-    today: number;
-    thisMonth?: number;
-  };
-  createdAt: string;
-  updatedAt: string;
-}
+import type { Avatar } from '@/types';
 
 const STORAGE_KEY = 'karma_avatars';
 

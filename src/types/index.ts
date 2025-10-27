@@ -14,9 +14,20 @@ export interface Project {
   name: string;
   description: string;
   progress: number;
-  status: 'active' | 'completed' | 'archived';
+  status: 'planning' | 'in-progress' | 'review' | 'completed' | 'on-hold' | 'active' | 'archived';
   members: ProjectMember[];
   tasks: Task[];
+  priority?: 'low' | 'medium' | 'high' | 'urgent';
+  dueDate?: string;
+  team?: string[];
+  budget?: {
+    total: number;
+    used: number;
+  };
+  tags?: string[];
+  template?: string;
+  autoMode?: boolean;
+  isPrivate?: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -78,6 +89,7 @@ export interface Attachment {
 export interface Avatar {
   id: string;
   name: string;
+  role: string;  // Added: Avatar's role/position
   description: string;
   avatar: string;
   skills: string[];
@@ -85,12 +97,14 @@ export interface Avatar {
   performance: AvatarPerformance;
   abilities: AvatarAbilities;
   earnings: AvatarEarnings;
-  createdBy: string;
+  createdBy?: string;  // Made optional
   isPublic: boolean;
   rating: number;
   reviewCount: number;
   price?: number;
+  budget?: number;  // Added: Budget/cost for using this avatar
   createdAt: string;
+  updatedAt: string;  // Added: Last update timestamp
 }
 
 export interface AvatarPerformance {
