@@ -16,7 +16,11 @@ export interface Project {
   progress: number;
   status: 'planning' | 'in-progress' | 'review' | 'completed' | 'on-hold' | 'active' | 'archived';
   members: ProjectMember[];
-  tasks: Task[];
+  tasks: Task[] | {
+    total: number;
+    completed: number;
+    inProgress: number;
+  };
   priority?: 'low' | 'medium' | 'high' | 'urgent';
   dueDate?: string;
   team?: string[];
