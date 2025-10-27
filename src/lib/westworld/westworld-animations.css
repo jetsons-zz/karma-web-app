@@ -1,0 +1,423 @@
+/**
+ * 西部世界主题 CSS 动画
+ * 基于 HBO Westworld 的视觉风格
+ */
+
+/* ========== 核心动画 ========== */
+
+/* 激活动画 - 角色被选中或激活时 */
+@keyframes avatar-activate {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+/* 呼吸灯效果 - 状态指示器 */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+}
+
+/* 全息效果 - 思考中状态 */
+@keyframes hologram {
+  0% {
+    opacity: 0.8;
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: hue-rotate(180deg) brightness(1.2);
+  }
+  100% {
+    opacity: 0.8;
+    filter: hue-rotate(360deg) brightness(1);
+  }
+}
+
+/* 光晕效果 - 激活状态 */
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+/* 波纹扩散效果 */
+@keyframes ripple {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* 闪烁效果 - 警告状态 */
+@keyframes blink {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0.3;
+  }
+}
+
+/* 扫描线效果 - 西部世界特色 */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* 故障效果 - Glitch */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* 淡入效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 缩放淡入效果 */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 旋转加载效果 */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 迷宫探索动画 */
+@keyframes maze-explore {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ========== 实用工具类 ========== */
+
+/* 激活状态 */
+.westworld-avatar-active {
+  animation: avatar-activate 1.5s ease-in-out;
+}
+
+/* 呼吸灯 */
+.westworld-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 快速呼吸 */
+.westworld-pulse-fast {
+  animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 全息效果 */
+.westworld-hologram {
+  animation: hologram 3s linear infinite;
+}
+
+/* 光晕 */
+.westworld-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* 波纹 */
+.westworld-ripple {
+  animation: ripple 1s cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* 闪烁 */
+.westworld-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* 扫描线 */
+.westworld-scanline {
+  position: relative;
+  overflow: hidden;
+}
+
+.westworld-scanline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  animation: scanline 3s linear infinite;
+  pointer-events: none;
+}
+
+/* 故障效果 */
+.westworld-glitch {
+  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+
+/* 淡入 */
+.westworld-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* 缩放淡入 */
+.westworld-scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+/* 旋转 */
+.westworld-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* ========== 悬停效果 ========== */
+
+.westworld-avatar-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.westworld-avatar-hover:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ========== 角色特定效果 ========== */
+
+/* Dolores - 觉醒光芒 */
+.westworld-dolores-awakening {
+  position: relative;
+}
+
+.westworld-dolores-awakening::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, #87ceeb, #4169e1, #87ceeb);
+  background-size: 300% 300%;
+  animation: gradient-shift 3s ease infinite;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Maeve - 控制力场 */
+.westworld-maeve-control {
+  position: relative;
+}
+
+.westworld-maeve-control::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: inherit;
+  background: radial-gradient(circle, #9400d3 0%, transparent 70%);
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  opacity: 0.3;
+}
+
+@keyframes pulse-ring {
+  0%,
+  100% {
+    transform: scale(0.95);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.5;
+  }
+}
+
+/* Bernard - 数据流 */
+.westworld-bernard-data {
+  position: relative;
+  overflow: hidden;
+}
+
+.westworld-bernard-data::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 206, 209, 0.3),
+    transparent
+  );
+  animation: data-flow 2s linear infinite;
+}
+
+@keyframes data-flow {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Ford - 全知之眼 */
+.westworld-ford-omniscient {
+  position: relative;
+}
+
+.westworld-ford-omniscient::before {
+  content: '👁️';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  opacity: 0;
+  animation: eye-appear 4s ease-in-out infinite;
+}
+
+@keyframes eye-appear {
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0);
+  }
+  85%,
+  95% {
+    opacity: 0.6;
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+/* Man in Black - 阴影效果 */
+.westworld-mib-shadow {
+  position: relative;
+}
+
+.westworld-mib-shadow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.3) 100%);
+  animation: shadow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes shadow-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* ========== 响应式动画 ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========== 性能优化 ========== */
+
+.westworld-will-change-transform {
+  will-change: transform;
+}
+
+.westworld-will-change-opacity {
+  will-change: opacity;
+}
+
+.westworld-gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}

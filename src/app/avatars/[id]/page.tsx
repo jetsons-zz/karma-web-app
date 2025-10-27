@@ -75,7 +75,7 @@ export default function AvatarDetailPage({ params }: PageProps) {
             <Avatar
               src={avatar.avatar}
               name={avatar.name}
-              size="xxl"
+              size="xl"
               status={
                 avatar.status === 'working' ? 'busy' :
                 avatar.status === 'idle' ? 'online' : 'offline'
@@ -168,13 +168,13 @@ export default function AvatarDetailPage({ params }: PageProps) {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="outline" size="md">
+            <Button variant="secondary" size="md">
               <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
               分享
             </Button>
-            <Button variant="outline" size="md">
+            <Button variant="secondary" size="md">
               <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
               </svg>
@@ -356,7 +356,7 @@ export default function AvatarDetailPage({ params }: PageProps) {
                             </span>
                           </div>
                         </div>
-                        <Badge variant="outline">{task.priority.toUpperCase()}</Badge>
+                        <Badge variant="secondary">{task.priority.toUpperCase()}</Badge>
                       </div>
                     ))}
                   </div>
@@ -544,19 +544,19 @@ export default function AvatarDetailPage({ params }: PageProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <Button variant="outline" size="md" fullWidth>
+                  <Button variant="secondary" size="md" fullWidth>
                     <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
                     分配新任务
                   </Button>
-                  <Button variant="outline" size="md" fullWidth>
+                  <Button variant="secondary" size="md" fullWidth>
                     <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                     训练与优化
                   </Button>
-                  <Button variant="outline" size="md" fullWidth>
+                  <Button variant="secondary" size="md" fullWidth>
                     <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>

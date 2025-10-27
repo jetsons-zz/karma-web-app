@@ -10,6 +10,7 @@ const buttonVariants = cva(
         primary: 'shadow-sm',
         secondary: 'border-2',
         ghost: '',
+        danger: 'shadow-sm',
       },
       size: {
         sm: 'h-9 px-3 text-[13px] rounded-[12px]',
@@ -29,10 +30,11 @@ export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
+  fullWidth?: boolean;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, isLoading, children, disabled, ...props }, ref) => {
+  ({ className, variant, size, isLoading, fullWidth, children, disabled, ...props }, ref) => {
     // Define styles using CSS variables
     const variantStyles = {
       primary: {
@@ -48,6 +50,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         backgroundColor: 'transparent',
         color: 'var(--color-text-secondary)',
       },
+      danger: {
+        backgroundColor: 'var(--color-accent-danger)',
+        color: '#FFFFFF',
+      },
     };
 
     const style = variant ? variantStyles[variant] : variantStyles.primary;
@@ -58,6 +64,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           buttonVariants({ variant, size }),
           'focus-ring',
+          fullWidth && 'w-full',
           className
         )}
         style={{

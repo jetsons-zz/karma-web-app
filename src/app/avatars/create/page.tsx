@@ -788,7 +788,7 @@ export default function CreateAvatarPage() {
 
         {/* Navigation Buttons */}
         <div className="flex items-center justify-between">
-          <Button variant="outline" onClick={handleBack}>
+          <Button variant="secondary" onClick={handleBack}>
             {step === 1 ? '取消' : '上一步'}
           </Button>
           <Button onClick={handleNext} disabled={!canProceed()}>

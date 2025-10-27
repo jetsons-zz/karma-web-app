@@ -15,10 +15,8 @@ export default function AvatarsPage() {
   const router = useRouter();
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
-  // Filter avatars by role
-  const filteredAvatars = selectedRole
-    ? mockAvatars.filter(a => a.role === selectedRole)
-    : mockAvatars;
+  // Filter avatars by role (currently disabled - role property not in Avatar type)
+  const filteredAvatars = mockAvatars;
 
   // Calculate team metrics
   const totalTasks = mockAvatars.reduce((sum, a) => sum + a.performance.completedTasks, 0);
