@@ -10,6 +10,7 @@ import { Progress } from '@/components/ui/Progress';
 import { Card, CardContent } from '@/components/ui/Card';
 import { SwipeableTaskCard } from '@/components/ui/SwipeableTaskCard';
 import { DraggableKanbanBoard } from '@/components/features/DraggableKanbanBoard';
+import { ProjectDashboard } from '@/components/features/ProjectDashboard';
 import { mockProjects, mockTasks, mockAvatars } from '@/lib/mock/data';
 import { formatDate, cn } from '@/lib/utils';
 import { showToast } from '@/components/ui/Toast';
@@ -35,7 +36,7 @@ const mapStatusToAvatarStatus = (status: string | undefined): 'online' | 'busy' 
 export default function ProjectDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const [viewMode, setViewMode] = useState<'list' | 'kanban' | 'timeline'>('list');
+  const [viewMode, setViewMode] = useState<'list' | 'kanban' | 'timeline' | 'dashboard'>('list');
   const { openModal } = useModalStore();
 
   const project = mockProjects.find(p => p.id === params.id);
@@ -219,6 +220,17 @@ export default function ProjectDetailPage() {
               看板视图
             </button>
             <button
+              onClick={() => setViewMode('dashboard')}
+              className={cn(
+                'pb-3 text-sm font-medium border-b-2 transition-colors',
+                viewMode === 'dashboard'
+                  ? 'border-primary-500 text-primary-600'
+                  : 'border-transparent text-neutral-600 hover:text-neutral-900'
+              )}
+            >
+              数据面板
+            </button>
+            <button
               onClick={() => setViewMode('timeline')}
               className={cn(
                 'pb-3 text-sm font-medium border-b-2 transition-colors',
@@ -256,6 +268,10 @@ export default function ProjectDetailPage() {
               // TODO: 保存任务顺序到后端
             }}
           />
+        )}
+
+        {viewMode === 'dashboard' && (
+          <ProjectDashboard project={project} tasks={tasks} />
         )}
 
         {viewMode === 'timeline' && (

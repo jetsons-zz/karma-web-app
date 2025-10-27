@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
 import { DataTile } from '@/components/ui/DataTile';
 import { Progress } from '@/components/ui/Progress';
+import { AvatarPerformanceMonitor } from '@/components/features/AvatarPerformanceMonitor';
 import { mockAvatars, mockTasks } from '@/lib/mock/data';
 import { formatDate } from '@/lib/utils';
 
@@ -621,71 +622,7 @@ export default function AvatarDetailPage({ params }: PageProps) {
 
         {/* Workspace Tab */}
         {activeTab === 'workspace' && (
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle>当前任务</CardTitle>
-                  <Button variant="secondary" size="sm">
-                    <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    分配新任务
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div
-                  className="text-center py-16"
-                  style={{
-                    color: 'var(--color-text-muted)',
-                    fontSize: 'var(--font-size-body)',
-                  }}
-                >
-                  <div className="text-6xl mb-4">💼</div>
-                  <p className="mb-2" style={{ fontWeight: 'var(--font-weight-medium)' }}>工作台功能开发中</p>
-                  <p style={{ fontSize: 'var(--font-size-caption)' }}>
-                    将包含：任务队列、执行日志、性能监控
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>任务队列</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-caption)' }}>
-                    待执行任务: 0
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>执行日志</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-caption)' }}>
-                    最近活动: 无
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>性能监控</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--font-size-caption)' }}>
-                    实时监控: 准备中
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
+          <AvatarPerformanceMonitor avatar={avatar} />
         )}
 
         {/* Training Tab */}
