@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
@@ -9,11 +9,25 @@ import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
 import { DataTile } from '@/components/ui/DataTile';
 import { Progress } from '@/components/ui/Progress';
-import { mockAvatars } from '@/lib/mock/data';
+import { getAllAvatars, type Avatar as AvatarType } from '@/lib/mock/avatarStore';
 
 export default function AvatarsPage() {
   const router = useRouter();
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
+  const [mockAvatars, setMockAvatars] = useState<AvatarType[]>([]);
+
+  // Load avatars from store on mount and when page gains focus
+  useEffect(() => {
+    const loadAvatars = () => {
+      setMockAvatars(getAllAvatars());
+    };
+
+    loadAvatars();
+
+    // Reload when window gains focus (user returns from create page)
+    window.addEventListener('focus', loadAvatars);
+    return () => window.removeEventListener('focus', loadAvatars);
+  }, []);
 
   // Filter avatars by role (currently disabled - role property not in Avatar type)
   const filteredAvatars = mockAvatars;
@@ -51,7 +65,7 @@ export default function AvatarsPage() {
               AI分身 × 角色专精 × 实时状态
             </p>
           </div>
-          <Button size="lg">
+          <Button size="lg" onClick={() => router.push('/avatars/create')}>
             <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card';
@@ -10,19 +10,33 @@ import { Avatar } from '@/components/ui/Avatar';
 import { DataTile } from '@/components/ui/DataTile';
 import { Progress } from '@/components/ui/Progress';
 import { Toggle } from '@/components/ui/Toggle';
-import { mockProjects } from '@/lib/mock/data';
+import { getAllProjects, type Project } from '@/lib/mock/projectStore';
 import { formatDate } from '@/lib/utils';
 
 export default function ProjectsPage() {
   const router = useRouter();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [autoMode, setAutoMode] = useState(true);
+  const [mockProjects, setMockProjects] = useState<Project[]>([]);
+
+  // Load projects from store on mount and when page gains focus
+  useEffect(() => {
+    const loadProjects = () => {
+      setMockProjects(getAllProjects());
+    };
+
+    loadProjects();
+
+    // Reload when window gains focus (user returns from create page)
+    window.addEventListener('focus', loadProjects);
+    return () => window.removeEventListener('focus', loadProjects);
+  }, []);
 
   // Calculate metrics
-  const activeProjects = mockProjects.filter(p => p.status === 'active').length;
+  const activeProjects = mockProjects.filter(p => p.status === 'in-progress').length;
   const totalProjects = mockProjects.length;
-  const avgProgress = Math.round(mockProjects.reduce((sum, p) => sum + p.progress, 0) / totalProjects);
-  const totalMembers = new Set(mockProjects.flatMap(p => p.members.map(m => m.userId))).size;
+  const avgProgress = totalProjects > 0 ? Math.round(mockProjects.reduce((sum, p) => sum + p.progress, 0) / totalProjects) : 0;
+  const totalMembers = new Set(mockProjects.flatMap(p => p.team || [])).size;
 
   return (
     <MainLayout>
@@ -56,7 +70,7 @@ export default function ProjectsPage() {
               labels={['手动', '自动']}
               showHITLIndicator={autoMode}
             />
-            <Button size="lg">
+            <Button size="lg" onClick={() => router.push('/projects/create')}>
               <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
@@ -147,7 +161,7 @@ export default function ProjectsPage() {
           {mockProjects.map((project) => (
             <Card
               key={project.id}
-              status={project.status === 'active' ? 'active' : 'default'}
+              status={project.status === 'in-progress' ? 'active' : 'default'}
               className="cursor-pointer"
               onClick={() => router.push(`/projects/${project.id}`)}
             >
@@ -159,8 +173,15 @@ export default function ProjectsPage() {
                       {project.description}
                     </CardDescription>
                   </div>
-                  <Badge variant={project.status === 'active' ? 'success' : 'secondary'}>
-                    {project.status === 'active' ? '进行中' : '已完成'}
+                  <Badge variant={
+                    project.status === 'in-progress' ? 'success' :
+                    project.status === 'completed' ? 'secondary' :
+                    project.status === 'on-hold' ? 'warning' : 'default'
+                  }>
+                    {project.status === 'in-progress' ? '进行中' :
+                     project.status === 'completed' ? '已完成' :
+                     project.status === 'on-hold' ? '暂停' :
+                     project.status === 'planning' ? '规划中' : '审核中'}
                   </Badge>
                 </div>
               </CardHeader>
@@ -188,31 +209,16 @@ export default function ProjectsPage() {
 
                 {/* Members */}
                 <div className="flex items-center justify-between">
-                  <div className="flex -space-x-2">
-                    {project.members.slice(0, 3).map((member, idx) => (
-                      <Avatar
-                        key={idx}
-                        src={member.avatar}
-                        name={member.name}
-                        size="sm"
-                        status={idx === 0 ? 'online' : undefined}
-                        style={{
-                          border: '2px solid var(--color-bg-panel)',
-                        }}
-                      />
-                    ))}
-                    {project.members.length > 3 && (
-                      <div
-                        className="flex items-center justify-center h-8 w-8 rounded-full text-xs font-medium"
-                        style={{
-                          backgroundColor: 'var(--color-bg-elevated)',
-                          color: 'var(--color-text-secondary)',
-                          border: '2px solid var(--color-bg-panel)',
-                        }}
-                      >
-                        +{project.members.length - 3}
-                      </div>
-                    )}
+                  <div className="flex items-center gap-2">
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--color-text-secondary)' }}>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span style={{
+                      fontSize: 'var(--font-size-caption)',
+                      color: 'var(--color-text-secondary)',
+                    }}>
+                      {(project.team || []).length} 个成员
+                    </span>
                   </div>
                   <span
                     style={{

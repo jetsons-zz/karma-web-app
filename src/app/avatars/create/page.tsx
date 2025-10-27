@@ -70,6 +70,7 @@ const roleInfo: Record<Role, { title: string; description: string; color: string
 export default function CreateAvatarPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [isCreating, setIsCreating] = useState(false);
   const [formData, setFormData] = useState<AvatarFormData>({
     role: null,
     name: '',
@@ -90,13 +91,42 @@ export default function CreateAvatarPage() {
   const totalSteps = 5;
   const progress = (step / totalSteps) * 100;
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step < totalSteps) {
       setStep(step + 1);
     } else {
       // Submit form
-      console.log('Creating avatar:', formData);
-      router.push('/avatars');
+      await createAvatar();
+    }
+  };
+
+  const createAvatar = async () => {
+    if (!formData.role) return;
+
+    setIsCreating(true);
+    try {
+      const response = await fetch('/api/avatars/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // 显示成功消息
+        alert(`✨ ${data.message}\n\n你的分身 ${formData.name} 已创建成功！`);
+        router.push('/avatars');
+      } else {
+        throw new Error(data.error || '创建失败');
+      }
+    } catch (error) {
+      console.error('Create avatar error:', error);
+      alert(`创建失败: ${error instanceof Error ? error.message : '未知错误'}`);
+    } finally {
+      setIsCreating(false);
     }
   };
 
@@ -788,11 +818,11 @@ export default function CreateAvatarPage() {
 
         {/* Navigation Buttons */}
         <div className="flex items-center justify-between">
-          <Button variant="secondary" onClick={handleBack}>
+          <Button variant="secondary" onClick={handleBack} disabled={isCreating}>
             {step === 1 ? '取消' : '上一步'}
           </Button>
-          <Button onClick={handleNext} disabled={!canProceed()}>
-            {step === totalSteps ? '创建分身' : '下一步'}
+          <Button onClick={handleNext} disabled={!canProceed() || isCreating}>
+            {isCreating ? '创建中...' : step === totalSteps ? '创建分身' : '下一步'}
           </Button>
         </div>
       </div>

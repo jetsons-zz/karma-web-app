@@ -68,11 +68,37 @@ export default function CreateProjectPage() {
     autoMode: true,
     isPrivate: false,
   });
+  const [isCreating, setIsCreating] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Creating project:', formData);
-    router.push('/projects');
+
+    setIsCreating(true);
+    try {
+      const response = await fetch('/api/projects/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // 成功创建，跳转到项目列表
+        setTimeout(() => {
+          router.push('/projects');
+        }, 500);
+      } else {
+        throw new Error(data.error || '创建失败');
+      }
+    } catch (error) {
+      console.error('Create project error:', error);
+      alert(`创建失败: ${error instanceof Error ? error.message : '未知错误'}`);
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   const toggleMember = (avatarId: string) => {
@@ -522,9 +548,9 @@ export default function CreateProjectPage() {
                 type="submit"
                 size="lg"
                 fullWidth
-                disabled={!canSubmit}
+                disabled={!canSubmit || isCreating}
               >
-                创建项目
+                {isCreating ? '创建中...' : '创建项目'}
               </Button>
 
               {/* Help Text */}
