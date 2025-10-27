@@ -8,8 +8,12 @@ import { Badge } from '@/components/ui/Badge';
 import { Avatar } from '@/components/ui/Avatar';
 import { Progress } from '@/components/ui/Progress';
 import { Card, CardContent } from '@/components/ui/Card';
+import { SwipeableTaskCard } from '@/components/ui/SwipeableTaskCard';
+import { DraggableKanbanBoard } from '@/components/features/DraggableKanbanBoard';
 import { mockProjects, mockTasks, mockAvatars } from '@/lib/mock/data';
 import { formatDate, cn } from '@/lib/utils';
+import { showToast } from '@/components/ui/Toast';
+import { useModalStore } from '@/lib/stores/modalStore';
 import type { Task } from '@/types';
 
 // Helper function to map mock status to Avatar component status
@@ -32,6 +36,7 @@ export default function ProjectDetailPage() {
   const params = useParams();
   const router = useRouter();
   const [viewMode, setViewMode] = useState<'list' | 'kanban' | 'timeline'>('list');
+  const { openModal } = useModalStore();
 
   const project = mockProjects.find(p => p.id === params.id);
   const tasks = mockTasks.filter(t => t.projectId === params.id);
@@ -47,37 +52,63 @@ export default function ProjectDetailPage() {
     completed: tasks.filter(t => t.status === 'completed'),
   };
 
+  // 处理任务操作
+  const handleDeleteTask = (task: Task) => {
+    openModal('delete-confirm', {
+      message: `确定要删除任务 "${task.title}" 吗？`,
+      onConfirm: () => {
+        showToast.success('任务已删除');
+        // TODO: 实际删除逻辑
+      },
+    });
+  };
+
+  const handleEditTask = (task: Task) => {
+    openModal('edit-task', { title: task.title, taskId: task.id });
+  };
+
+  const handleCompleteTask = (task: Task) => {
+    showToast.success(`任务 "${task.title}" 已完成`);
+    // TODO: 实际更新任务状态逻辑
+  };
+
   const TaskCard = ({ task }: { task: Task }) => (
-    <Card
-      className="cursor-pointer hover:shadow-md transition-shadow"
-      onClick={() => router.push(`/projects/${project.id}/tasks/${task.id}`)}
+    <SwipeableTaskCard
+      onDelete={() => handleDeleteTask(task)}
+      onEdit={() => handleEditTask(task)}
+      onComplete={task.status !== 'completed' ? () => handleCompleteTask(task) : undefined}
     >
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between mb-2">
-          <h3 className="font-medium text-neutral-900">{task.title}</h3>
-          <Badge variant={
-            task.priority === 'p0' ? 'error' :
-            task.priority === 'p1' ? 'warning' : 'secondary'
-          }>
-            {task.priority.toUpperCase()}
-          </Badge>
-        </div>
-        {task.description && (
-          <p className="text-sm text-neutral-600 mb-3">{task.description}</p>
-        )}
-        <div className="flex items-center justify-between">
-          {task.assignee && (
-            <div className="flex items-center space-x-2">
-              <Avatar src={task.assignee.avatar} size="xs" status={mapStatusToAvatarStatus(task.assignee.status)} />
-              <span className="text-xs text-neutral-600">{task.assignee.name}</span>
-            </div>
+      <Card
+        className="cursor-pointer hover:shadow-md transition-shadow"
+        onClick={() => router.push(`/projects/${project.id}/tasks/${task.id}`)}
+      >
+        <CardContent className="p-4">
+          <div className="flex items-start justify-between mb-2">
+            <h3 className="font-medium text-neutral-900">{task.title}</h3>
+            <Badge variant={
+              task.priority === 'p0' ? 'error' :
+              task.priority === 'p1' ? 'warning' : 'secondary'
+            }>
+              {task.priority.toUpperCase()}
+            </Badge>
+          </div>
+          {task.description && (
+            <p className="text-sm text-neutral-600 mb-3">{task.description}</p>
           )}
-          <span className="text-xs text-neutral-400">
-            {formatDate(task.updatedAt)}
-          </span>
-        </div>
-      </CardContent>
-    </Card>
+          <div className="flex items-center justify-between">
+            {task.assignee && (
+              <div className="flex items-center space-x-2">
+                <Avatar src={task.assignee.avatar} size="xs" status={mapStatusToAvatarStatus(task.assignee.status)} />
+                <span className="text-xs text-neutral-600">{task.assignee.name}</span>
+              </div>
+            )}
+            <span className="text-xs text-neutral-400">
+              {formatDate(task.updatedAt)}
+            </span>
+          </div>
+        </CardContent>
+      </Card>
+    </SwipeableTaskCard>
   );
 
   // Right Sidebar
@@ -211,26 +242,20 @@ export default function ProjectDetailPage() {
         )}
 
         {viewMode === 'kanban' && (
-          <div className="grid grid-cols-4 gap-4">
-            {[
-              { key: 'todo', label: '待办', tasks: tasksByStatus.todo },
-              { key: 'in_progress', label: '进行中', tasks: tasksByStatus.in_progress },
-              { key: 'review', label: '审核中', tasks: tasksByStatus.review },
-              { key: 'completed', label: '已完成', tasks: tasksByStatus.completed },
-            ].map(({ key, label, tasks: columnTasks }) => (
-              <div key={key} className="bg-neutral-50 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-medium text-neutral-900">{label}</h3>
-                  <Badge variant="secondary">{columnTasks.length}</Badge>
-                </div>
-                <div className="space-y-3">
-                  {columnTasks.map((task) => (
-                    <TaskCard key={task.id} task={task} />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+          <DraggableKanbanBoard
+            tasks={tasks}
+            onTaskClick={(task) => router.push(`/projects/${project.id}/tasks/${task.id}`)}
+            onTaskDelete={handleDeleteTask}
+            onTaskEdit={handleEditTask}
+            onTaskMove={(taskId, newStatus) => {
+              console.log(`Task ${taskId} moved to ${newStatus}`);
+              // TODO: 更新任务状态到后端
+            }}
+            onTaskReorder={(reorderedTasks) => {
+              console.log('Tasks reordered:', reorderedTasks.length);
+              // TODO: 保存任务顺序到后端
+            }}
+          />
         )}
 
         {viewMode === 'timeline' && (
