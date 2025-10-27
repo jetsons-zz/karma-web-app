@@ -40,6 +40,14 @@ export async function POST(req: NextRequest) {
       description: body.description,
       status: 'planning',
       progress: 0,
+      members: [
+        {
+          userId: 'user-1',
+          name: '你',
+          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=user-1',
+          role: 'owner',
+        },
+      ],
       priority: body.priority || 'medium',
       dueDate: body.dueDate || defaultDueDate.toISOString(),
       team: body.members,

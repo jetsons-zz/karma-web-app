@@ -10,7 +10,8 @@ import { Avatar } from '@/components/ui/Avatar';
 import { DataTile } from '@/components/ui/DataTile';
 import { Progress } from '@/components/ui/Progress';
 import { Toggle } from '@/components/ui/Toggle';
-import { getAllProjects, type Project } from '@/lib/mock/projectStore';
+import { getAllProjects } from '@/lib/mock/projectStore';
+import type { Project } from '@/types';
 import { formatDate } from '@/lib/utils';
 
 export default function ProjectsPage() {
