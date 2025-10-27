@@ -1,0 +1,21 @@
+# 不上传到 Vercel 的文件
+.env.local
+.env*.local
+node_modules
+.next
+.git
+
+# 测试和开发文件
+test-results
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# 文档（可选，如果想部署文档可以注释掉）
+*.md
+!README.md
+
+# 其他
+.DS_Store
+*.log

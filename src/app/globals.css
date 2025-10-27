@@ -1,26 +1,161 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Colors */
+  --color-bg-canvas: #0D0D0F;
+  --color-bg-panel: #141419;
+  --color-bg-elevated: #1A1A22;
+
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #A7A7B0;
+  --color-text-muted: #7C7C86;
+
+  --color-brand-primary: #6C63FF;
+  --color-brand-secondary: #2F7BFF;
+
+  --color-accent-success: #00C853;
+  --color-accent-warning: #FFB300;
+  --color-accent-danger: #FF3D00;
+
+  --color-border: #2A2A33;
+
+  --color-chart-line: #7A74FF;
+
+  --color-hitl-wave: #7AE4C7;
+
+  /* Font Family */
+  --font-sans: 'Inter', system-ui, -apple-system, 'SF Pro', 'Roboto', sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', 'Monaco', 'Consolas', monospace;
+
+  /* Font Sizes */
+  --font-size-h1: 32px;
+  --font-size-h2: 24px;
+  --font-size-h3: 20px;
+  --font-size-body: 16px;
+  --font-size-caption: 13px;
+  --font-size-numeric: 20px;
+
+  /* Font Weights */
+  --font-weight-bold: 700;
+  --font-weight-medium: 600;
+  --font-weight-regular: 400;
+
+  /* Border Radius */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+
+  /* Spacing */
+  --spacing-xxs: 6px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.2);
+  --shadow-md: 0 6px 18px rgba(0,0,0,.25);
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-std: 200ms;
+  --duration-slow: 320ms;
+
+  --ease-karma: cubic-bezier(0.2,0.8,0.2,1);
+
+  /* Animations */
+  --animate-fade-in: fadeIn 200ms cubic-bezier(0.2,0.8,0.2,1);
+  --animate-slide-in: slideIn 200ms cubic-bezier(0.2,0.8,0.2,1);
+  --animate-scale-in: scaleIn 200ms cubic-bezier(0.2,0.8,0.2,1);
+  --animate-hitl-wave: hitlWave 2s ease-in-out infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  body {
+    background-color: var(--color-bg-canvas);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  html {
+    color-scheme: dark;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Custom scrollbar - dark theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: var(--color-bg-panel);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #3A3A44;
+  }
+
+  /* Focus ring for accessibility */
+  .focus-ring {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-brand-primary);
+  }
+
+  /* HITL Wave effect */
+  .hitl-active {
+    animation: var(--animate-hitl-wave);
+    box-shadow: 0 0 20px var(--color-hitl-wave);
+  }
+
+  /* Card hover effect */
+  .card-hover {
+    transition: all var(--duration-std) var(--ease-karma);
+  }
+
+  .card-hover:hover {
+    filter: brightness(1.06);
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-hover:active {
+    filter: brightness(0.9);
+    box-shadow: none;
+  }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideIn {
+  0% { transform: translateY(-8px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0.96); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes hitlWave {
+  0%, 100% { opacity: 0.4; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1); }
 }

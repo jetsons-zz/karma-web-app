@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "🚀 Karma Web App - ngrok 快速启动"
+echo "================================"
+echo ""
+echo "📋 当前状态："
+echo "   ✅ 开发服务器运行在: http://localhost:3002"
+echo ""
+echo "📝 接下来需要："
+echo ""
+echo "1️⃣  注册 ngrok 账户（如果还没有）"
+echo "   访问: https://dashboard.ngrok.com/signup"
+echo ""
+echo "2️⃣  配置认证令牌（只需一次）"
+echo "   复制你的 authtoken，然后运行:"
+echo "   ngrok config add-authtoken 你的token"
+echo ""
+echo "3️⃣  启动 ngrok 隧道"
+echo "   ngrok http 3002"
+echo ""
+echo "================================"
+echo ""
+read -p "已完成上述步骤？按回车启动 ngrok... " 
+
+ngrok http 3002
