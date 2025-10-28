@@ -1,10 +1,9 @@
 /**
  * Accessibility Components
  *
- * Components and utilities for improving application accessibility.
- * Follows WCAG 2.1 Level AA standards.
+ * Collection of accessibility-focused components for WCAG 2.1 AA compliance
  */
 
 export { SkipLink } from './SkipLink';
-export { FocusTrap } from './FocusTrap';
 export { KeyboardShortcuts } from './KeyboardShortcuts';
+export { FocusTrap } from './FocusTrap';
