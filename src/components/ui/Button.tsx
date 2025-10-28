@@ -14,10 +14,10 @@ const buttonVariants = cva(
         danger: 'shadow-sm',
       },
       size: {
-        sm: 'h-9 px-3 text-[13px] rounded-[12px]',
-        md: 'h-11 px-4 text-[16px] rounded-[16px]',
-        lg: 'h-14 px-6 text-[20px] rounded-[20px]',
-        icon: 'h-11 w-11 rounded-[16px]',
+        sm: 'h-10 px-3 text-[13px] rounded-[12px] min-h-touch-sm',  // 40px - Increased from 36px
+        md: 'h-11 px-4 text-[16px] rounded-[16px] min-h-touch',     // 44px - iOS HIG minimum
+        lg: 'h-14 px-6 text-[20px] rounded-[20px] min-h-touch-lg',  // 56px
+        icon: 'h-11 w-11 rounded-[16px] min-h-touch min-w-touch',   // 44x44px
       },
     },
     defaultVariants: {
