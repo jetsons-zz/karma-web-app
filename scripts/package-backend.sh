@@ -441,4 +441,3 @@ echo "  3. 或创建 GitHub Release"
 
 # 清理临时目录（可选）
 # rm -rf $TEMP_DIR
-EOF
