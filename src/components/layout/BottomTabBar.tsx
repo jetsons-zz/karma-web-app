@@ -41,6 +41,12 @@ export function BottomTabBar() {
       href: '/projects',
     },
     {
+      id: 'devices',
+      icon: '📱',
+      label: '设备',
+      href: '/devices',
+    },
+    {
       id: 'avatars',
       icon: '🤖',
       label: '分身',
